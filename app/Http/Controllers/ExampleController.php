@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Link;
+
 class ExampleController extends Controller
 {
     /**
@@ -11,8 +13,9 @@ class ExampleController extends Controller
      */
     public function __construct()
     {
-        //
+        $code = $request->get('code');
+
+        $link = Link::byCode('code', $code)->first();
     }
 
-    //
 }

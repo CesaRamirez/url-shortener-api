@@ -12,6 +12,7 @@ class MathTest extends TestCase
         1000000   => '4c92',
         999999999 => '15FTGf'
      ];
+
     /**
      * @test Correctly encodes values.
      *

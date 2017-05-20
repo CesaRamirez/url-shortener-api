@@ -46,11 +46,18 @@ class Link extends Model
         return $this->where('code', $code);
     }
 
+    /**
+     * Generate shortened URL from code
+     *
+     * @return string
+     */
     public function shortenedUrl()
     {
         if ( !$this->code ) {
             return null;
         }
+        
         return env('CLIENT_URL') . '/' . $this->code;
     }
+
 }

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Link;
+use Cache;
 use Illuminate\Http\Request;
 
 class LinksController extends Controller
 {
     protected $link;
+
     /**
      * Create a new controller instance.
      *
@@ -18,6 +20,13 @@ class LinksController extends Controller
         $this->link = $link;
     }
 
+    /**
+     * Store URL shortened
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -40,18 +49,27 @@ class LinksController extends Controller
         return $this->linkResponse($link);
     }
 
+    /**
+     * Show URL shortened
+     *
+     * @param  \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Request $request)
     {
         $code = $request->get('code');
 
-        $link = $this->link->byCode($code)->first();
+        $link =  Cache::rememberForever("link.{$code}", function () use ($code) {
+            return $this->link->byCode($code)->first();
+        });
 
         if ( $link === null) {
             return response(null, 404);
         }
 
         $link->increment('used_count');
-        
+
         return $this->linkResponse($link);
     }
 

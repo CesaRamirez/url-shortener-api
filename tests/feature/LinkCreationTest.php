@@ -16,7 +16,7 @@ class LinkCreationTest extends TestCase
     public function fails_if_no_url_given()
     {
         $response = $this->json('POST', '/', [
-            'url' => 'http://www.google.com'
+            'url' => 'www.google.com'
         ])
         ->seeInDatabase('links', [
             'original_url' => 'http://www.google.com',

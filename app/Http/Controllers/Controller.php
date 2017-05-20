@@ -14,14 +14,25 @@ class Controller extends BaseController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function linkResponse(Link $link)
+    protected function linkResponse(Link $link, $merge = false)
     {
-        return response()->json([
+        $array = [];
+
+        if ( $merge ) {
+            $array = [
+                'requested_count' => (int) $link->requested_count,
+                'used_count'      => (int) $link->used_count,
+                'created_at'      => $link->created_at->toDateTimeString(),
+                'updated_at'      => $link->updated_at->toDateTimeString()
+            ];
+        }
+
+        return response()->json(array_merge([
             'data' => [
                 'original_url'  => $link->original_url,
                 'shortened_url' => $link->shortenedUrl(),
                 'code'          => $link->code
             ]
-        ], 200);
+        ] , $array), 200);
     }
 }

@@ -1,5 +1,5 @@
 <?php
 
-$app->post('/', 'LinksController@store');
-$app->get('/', 'LinksController@show');
-$app->get('/stats', 'LinkStatsController@show');
+$router->post('/', 'LinksController@store');
+$router->get('/', 'LinksController@show');
+$router->get('/stats', 'LinkStatsController@show');

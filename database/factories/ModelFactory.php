@@ -13,6 +13,6 @@
 
 $factory->define(App\Link::class, function (Faker\Generator $faker) {
     return [
-        'original_url'  => $faker->url
+        'original_url'  => $faker->url,
     ];
 });

@@ -17,29 +17,25 @@ class Link extends Model
         'original_url',
         'code',
         'requested_count',
-        'used_count'
+        'used_count',
     ];
 
     /**
-     * Generation Code for Link
-     *
-     * @return void
+     * Generation Code for Link.
      */
     public function getCode()
     {
-        if ( $this->id === null) {
-            throw new CodeGenerationException;
+        if ($this->id === null) {
+            throw new CodeGenerationException();
         }
 
-        return (new Math)->toBase($this->id);
+        return (new Math())->toBase($this->id);
     }
 
     /**
-     * Get Link model by Code
+     * Get Link model by Code.
      *
-     * @param  string $code
-     *
-     * @return void
+     * @param string $code
      */
     public function byCode($code)
     {
@@ -47,17 +43,16 @@ class Link extends Model
     }
 
     /**
-     * Generate shortened URL from code
+     * Generate shortened URL from code.
      *
      * @return string
      */
     public function shortenedUrl()
     {
-        if ( !$this->code ) {
-            return null;
+        if (! $this->code) {
+            return;
         }
-        
-        return env('CLIENT_URL') . '/' . $this->code;
-    }
 
+        return env('CLIENT_URL').'/'.$this->code;
+    }
 }

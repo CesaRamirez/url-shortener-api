@@ -9,7 +9,7 @@ class LinkObserver
     public function created(Link $link)
     {
         $link->update([
-            'code' => $link->getCode()
+            'code' => $link->getCode(),
         ]);
     }
 }

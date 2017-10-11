@@ -8,12 +8,15 @@ use Illuminate\Http\Request;
 
 class LinksController extends Controller
 {
+    /**
+     * Link.
+     *
+     * @var \App\Link
+     */
     protected $link;
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct(Link $link)
     {
@@ -21,26 +24,26 @@ class LinksController extends Controller
     }
 
     /**
-     * Store URL shortened
+     * Store URL shortened.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'url' => 'required|url'
+            'url' => 'required|url',
         ], [
             'url.required' => 'Please enter a URL to shorten.',
-            'url.url'      => 'That don\'t look like a valid URL'
+            'url.url'      => 'That don\'t look like a valid URL',
         ]);
 
         $link = $this->link->firstOrNew([
-            'original_url' => $request->get('url')
+            'original_url' => $request->get('url'),
         ]);
 
-        if ( !$link->exists ) {
+        if (! $link->exists) {
             $link->save();
         }
 
@@ -50,9 +53,9 @@ class LinksController extends Controller
     }
 
     /**
-     * Show URL shortened
+     * Show URL shortened.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -64,7 +67,7 @@ class LinksController extends Controller
             return $this->link->byCode($code)->first();
         });
 
-        if ( $link === null) {
+        if ($link === null) {
             return response(null, 404);
         }
 
@@ -72,5 +75,4 @@ class LinksController extends Controller
 
         return $this->linkResponse($link);
     }
-
 }

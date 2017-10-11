@@ -9,23 +9,24 @@ class ModifiesUrlRequestData
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
-        if ( !$request->has('url') ) {
+        if (! $request->has('url')) {
             return $next($request);
         }
 
         $Validator = \Validator::make($request->only('url'), [
-            'url' => 'url'
+            'url' => 'url',
         ]);
 
-        if ( $Validator->fails() ) {
+        if ($Validator->fails()) {
             $request->merge([
-                'url' => 'http://' . $request->url
+                'url' => 'http://'.$request->url,
             ]);
         }
 
